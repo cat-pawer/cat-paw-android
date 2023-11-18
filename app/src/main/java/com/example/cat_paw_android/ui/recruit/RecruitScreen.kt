@@ -20,6 +20,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +42,9 @@ import com.example.cat_paw_android.ui.theme.SkyBlue80
 @Composable
 fun RecruitScreenPreview() {
     CatpawandroidTheme {
-        RecruitScreen(Modifier.padding(horizontal = 16.dp))
+        Surface(Modifier.fillMaxWidth()) {
+            RecruitScreen(Modifier.padding(horizontal = 16.dp))
+        }
     }
 }
 
@@ -58,36 +61,43 @@ fun SpacerLow() {
 
 @Composable
 fun RecruitScreen(modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Center,
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(vertical = 8.dp),
     ) {
-        Row {
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.Default.Info,
-                modifier = Modifier
-                    .padding(top = 16.dp, end = 16.dp)
-                    .scale(2f),
-                contentDescription = null,
+        item {
+            Row {
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    modifier = Modifier
+                        .padding(top = 16.dp, end = 16.dp)
+                        .scale(2f),
+                    contentDescription = null,
+                )
+            }
+            SpacerMedium()
+            RecruitTitle(modifier)
+            SpacerLow()
+            ProjectsRow(
+                title = "신상 프로젝트",
+                projects = exampleProjectList,
+                modifier = modifier.padding(vertical = 4.dp),
             )
+            SpacerMedium()
+            ProjectsRow(
+                title = "마감임박 프로젝트",
+                projects = exampleProjectList,
+                backgroundColor = SkyBlue80,
+                modifier = modifier.padding(vertical = 4.dp),
+            )
+            SpacerMedium()
         }
-        SpacerMedium()
-        RecruitTitle(modifier)
-        SpacerLow()
-        ProjectsRow(
-            title = "신상 프로젝트",
-            projects = exampleProjectList,
-            modifier = modifier.padding(vertical = 4.dp),
-        )
-        SpacerMedium()
-        ProjectsRow(
-            title = "마감임박 프로젝트",
-            projects = exampleProjectList,
-            backgroundColor = SkyBlue80,
-            modifier = modifier.padding(vertical = 4.dp),
-        )
-        SpacerMedium()
-        ProjectsColumn(projects = exampleProjectList)
+        items(exampleProjectList) {
+            ProjectCard(project = it)
+        }
     }
 }
 
@@ -130,15 +140,20 @@ fun ProjectsRow(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
 ) {
-    Column(modifier = Modifier.background(backgroundColor)) {
+    Column(
+        modifier = Modifier
+            .background(backgroundColor)
+            .padding(top = 8.dp, bottom = 16.dp)
+    ) {
         Text(
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             modifier = modifier,
         )
-        SpacerMedium()
+        SpacerLow()
         LazyRow(
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 24.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
@@ -160,12 +175,13 @@ fun ProjectsRowPreview() {
 fun ProjectCard(project: Project) {
     ElevatedCard(modifier = Modifier
         .padding(vertical = 4.dp)
-        .size(width = 330.dp, height = 200.dp)
+        .size(width = 280.dp, height = 180.dp)
         .border(1.dp, shape = MaterialTheme.shapes.medium, color = Color.White)
         .shadow(8.dp),
         onClick = {}) {
         Column(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             Row {
                 for (tag in project.tags) {
