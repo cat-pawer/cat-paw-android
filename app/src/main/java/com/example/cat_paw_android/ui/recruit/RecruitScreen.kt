@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -180,8 +181,8 @@ fun ProjectCard(project: Project) {
         .shadow(8.dp),
         onClick = {}) {
         Column(
-            modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.padding(10.dp).fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceAround,
         ) {
             Row {
                 for (tag in project.tags) {
