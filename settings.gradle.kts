@@ -15,3 +15,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "cat-paw-android"
 include(":app")
+include(":data")
+include(":domain")
+include(":ui")
+include(":domain:recruit")
+include(":data:recruit")

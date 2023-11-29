@@ -1,4 +1,4 @@
-package com.example.cat_paw_android.ui.common
+package com.catpaw.ui.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape

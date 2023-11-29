@@ -1,4 +1,4 @@
-package com.example.cat_paw_android.model
+package com.catpaw.recruit.model
 
 data class Project(
     val title: String,

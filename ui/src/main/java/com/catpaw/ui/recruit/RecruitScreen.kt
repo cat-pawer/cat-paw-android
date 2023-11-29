@@ -1,4 +1,4 @@
-package com.example.cat_paw_android.ui.recruit
+package com.catpaw.ui.recruit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,10 +34,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cat_paw_android.model.Project
-import com.example.cat_paw_android.ui.common.SkillChip
-import com.example.cat_paw_android.ui.theme.CatpawandroidTheme
-import com.example.cat_paw_android.ui.theme.SkyBlue80
+import com.catpaw.recruit.model.Project
+import com.catpaw.ui.common.SkillChip
+import com.catpaw.ui.theme.CatpawandroidTheme
+import com.catpaw.ui.theme.SkyBlue80
 
 @Preview(showBackground = true, device = "id:pixel_7_pro")
 @Composable
