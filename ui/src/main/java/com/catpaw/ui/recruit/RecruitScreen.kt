@@ -15,25 +15,32 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.catpaw.recruit.model.Project
 import com.catpaw.ui.common.SkillChip
 import com.catpaw.ui.theme.CatpawandroidTheme
@@ -61,7 +68,11 @@ fun SpacerLow() {
 }
 
 @Composable
-fun RecruitScreen(modifier: Modifier = Modifier) {
+fun RecruitScreen(
+    modifier: Modifier = Modifier,
+    recruitViewModel: RecruitViewModel = viewModel()
+) {
+    val recruitUiState by recruitViewModel.uiState.collectAsState()
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -81,6 +92,11 @@ fun RecruitScreen(modifier: Modifier = Modifier) {
             }
             SpacerMedium()
             RecruitTitle(modifier)
+            SearchField(
+                modifier = modifier,
+                value = recruitUiState.searchKeyword,
+                onValueChange = { recruitViewModel.changeSearchKeyword(it) },
+            )
             SpacerLow()
             ProjectsRow(
                 title = "신상 프로젝트",
@@ -114,7 +130,27 @@ fun RecruitTitle(modifier: Modifier = Modifier) {
             text = "원하는 프로젝트는 다 만날 수 있어요!",
         )
     }
+}
 
+@Composable
+fun SearchField(
+    modifier: Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = "검색어") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            imeAction = ImeAction.Default
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { }
+        )
+    )
 }
 
 @Composable
@@ -152,7 +188,7 @@ fun ProjectsRow(
             fontSize = 18.sp,
             modifier = modifier,
         )
-        SpacerLow()
+//        SpacerLow()
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 24.dp),
@@ -181,7 +217,9 @@ fun ProjectCard(project: Project) {
         .shadow(8.dp),
         onClick = {}) {
         Column(
-            modifier = Modifier.padding(10.dp).fillMaxSize(),
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceAround,
         ) {
             Row {

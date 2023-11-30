@@ -79,6 +79,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     implementation(project(":ui"))
+    implementation(project(":domain:recruit"))
+    implementation(project(":data:recruit"))
 }
 
 kapt {
