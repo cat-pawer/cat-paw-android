@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.catpaw.ui.theme.CatpawandroidTheme
 
 @Composable
 fun TitleText(
@@ -37,6 +36,21 @@ fun SubTitleText(
 }
 
 @Composable
+fun ContentText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Black,
+    fontWeight: FontWeight? = null
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        fontSize = 16.sp,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
 fun SmallContentText(
     text: String,
     modifier: Modifier = Modifier,
@@ -46,7 +60,7 @@ fun SmallContentText(
         text = text,
         modifier = modifier,
         color = color,
-        fontSize = 14.sp
+        fontSize = 14.sp,
     )
 }
 
@@ -65,11 +79,10 @@ fun SmallContentGrayText(
 @Preview(showBackground = true)
 @Composable
 fun TextPreview() {
-    CatpawandroidTheme {
-        Column {
-            TitleText(text = "Title")
-            SubTitleText(text = "Sub Title")
-            SmallContentText(text = "Small Content")
-        }
+    Column {
+        TitleText(text = "Title")
+        SubTitleText(text = "Sub Title")
+        ContentText(text = "Content")
+        SmallContentText(text = "Small Content")
     }
 }
