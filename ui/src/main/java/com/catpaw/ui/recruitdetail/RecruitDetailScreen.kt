@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Divider
@@ -24,10 +23,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,10 +38,13 @@ import com.catpaw.recruit.model.RecruitComment
 import com.catpaw.recruit.model.RecruitDetail
 import com.catpaw.recruit.model.RecruitType
 import com.catpaw.ui.common.ContentText
+import com.catpaw.ui.common.RecruitTypeChip
 import com.catpaw.ui.common.SmallContentGrayText
 import com.catpaw.ui.common.SmallContentText
 import com.catpaw.ui.common.SubTitleText
+import com.catpaw.ui.common.TitleText
 import com.catpaw.ui.recruit.SpacerLow
+import com.catpaw.ui.recruit.SpacerMedium
 import com.catpaw.ui.theme.CatpawandroidTheme
 import com.catpaw.ui.theme.SkyBlue80
 
@@ -48,13 +53,69 @@ fun RecruitDetailScreen(
     modifier: Modifier = Modifier,
     recruitViewModel: RecruitDetailViewModel = viewModel()
 ) {
+    val uiState by recruitViewModel.uiState.collectAsState()
     val recruitDetail = exampleRecruitDetail
-    val scrollState = rememberScrollState()
+    val commentList = List(30) { exampleRecruitComment }
     CatpawandroidTheme {
-        Column(modifier.verticalScroll(scrollState)) {
-            RecruitContactBox(recruitDetail = recruitDetail)
+        LazyColumn(modifier = modifier.padding(horizontal = 4.dp)) {
+            item {
+                RecruitDetailTitle(recruitDetail = recruitDetail)
+                SpacerMedium()
+                RecruitContactBox(recruitDetail = recruitDetail)
+                RecruitContent(recruitDetail = recruitDetail)
+                SpacerMedium()
+                RecruitCommentInput(
+                    value = uiState.inputComment,
+                    onValueChange = { change: String -> recruitViewModel.changeInputComment(change) }
+                )
+                SpacerMedium()
+            }
+            itemsIndexed(commentList) { index, comment ->
+                RecruitCommentBox(comment = comment)
+                SpacerLow()
+                if (index < commentList.lastIndex) {
+                    Divider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.LightGray,
+                        thickness = 1.dp,
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+fun RecruitDetailTitle(
+    recruitDetail: RecruitDetail,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        RecruitTypeChip(recruitType = recruitDetail.recruitType)
+        TitleText(text = recruitDetail.title)
+        SpacerLow()
+        RecruitDetailTitleInfo(recruitDetail = recruitDetail)
+    }
+}
+
+@Composable
+fun RecruitDetailTitleInfo(
+    recruitDetail: RecruitDetail,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier) {
+        ContentText(text = recruitDetail.createdBy, color = Color.Gray)
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            SmallContentGrayText(text = "등록: ${recruitDetail.created}")
+            SmallContentGrayText(text = "조회수: ${recruitDetail.viewCount}")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecruitDetailTitlePreview() {
+    RecruitDetailTitle(exampleRecruitDetail)
 }
 
 @Composable
@@ -71,11 +132,12 @@ fun RecruitContactBox(
                 color = SkyBlue80,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            horizontalArrangement = Arrangement.Absolute.SpaceAround
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             IntroduceInnerRow("모집 인원", recruitDetail.recruitPeriod, innerRowModifier)
             IntroduceInnerRow("예상 기간", "${recruitDetail.expectDuration}개월", innerRowModifier)
@@ -118,7 +180,19 @@ fun RecruitContactBoxPreview() {
 fun RecruitContent(recruitDetail: RecruitDetail) {
     Column {
         SubTitleText("프로젝트 소개")
-        Text(recruitDetail.introduce)
+        Box(
+            modifier = Modifier.background(Color.Gray)
+        ) {
+            Text(recruitDetail.introduce)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecruitContentPreview() {
+    Box(Modifier.padding(horizontal = 4.dp)) {
+        RecruitContent(exampleRecruitDetail)
     }
 }
 
@@ -191,7 +265,7 @@ fun RecruitCommentBox(
             horizontalArrangement = Arrangement.SpaceBetween,
 //            verticalAlignment = Alignment.CenterVertically
         ) {
-            ContentText(text = comment.nickname)
+            ContentText(text = comment.nickname, fontWeight = FontWeight.SemiBold)
             Icon(
                 imageVector = Icons.Default.Clear,
                 contentDescription = "댓글 삭제",
