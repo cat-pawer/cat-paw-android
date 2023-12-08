@@ -46,7 +46,8 @@ import com.catpaw.ui.common.TitleText
 import com.catpaw.ui.recruit.SpacerLow
 import com.catpaw.ui.recruit.SpacerMedium
 import com.catpaw.ui.theme.CatpawandroidTheme
-import com.catpaw.ui.theme.SkyBlue80
+import com.catpaw.ui.theme.Alabaster
+import com.catpaw.ui.theme.Seagull
 
 @Composable
 fun RecruitDetailScreen(
@@ -129,7 +130,7 @@ fun RecruitContactBox(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = SkyBlue80,
+                color = Seagull,
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(vertical = 16.dp)
@@ -228,11 +229,11 @@ fun RecruitCommentInput(
                 )
             )
             TextButton(
-                modifier = Modifier.background(MaterialTheme.colorScheme.primary),
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
                 onClick = { /*TODO*/ },
                 shape = RoundedCornerShape(4.dp)
             ) {
-                Text(text = "등록", color = MaterialTheme.colorScheme.secondary)
+                Text(text = "등록", color = MaterialTheme.colorScheme.primary)
             }
         }
     }

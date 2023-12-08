@@ -44,7 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.catpaw.recruit.model.Project
 import com.catpaw.ui.common.SkillChip
 import com.catpaw.ui.theme.CatpawandroidTheme
-import com.catpaw.ui.theme.SkyBlue80
+import com.catpaw.ui.theme.Seagull
 
 @Preview(showBackground = true, device = "id:pixel_7_pro")
 @Composable
@@ -107,7 +107,7 @@ fun RecruitScreen(
             ProjectsRow(
                 title = "마감임박 프로젝트",
                 projects = exampleProjectList,
-                backgroundColor = SkyBlue80,
+                backgroundColor = Seagull,
                 modifier = modifier.padding(vertical = 4.dp),
             )
             SpacerMedium()
