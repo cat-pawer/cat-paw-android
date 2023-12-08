@@ -41,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
@@ -77,6 +78,9 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.4")
+
+    // For Robolectric tests.
+    testImplementation("com.google.dagger:hilt-android-testing:2.49")
 
     // retrofit
     val retrofitVersion = "2.9.0"
