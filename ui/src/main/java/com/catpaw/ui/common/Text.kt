@@ -46,7 +46,8 @@ fun ContentText(
         text = text,
         modifier = modifier,
         fontSize = 16.sp,
-        fontWeight = fontWeight
+        fontWeight = fontWeight,
+        color = color,
     )
 }
 
@@ -72,7 +73,7 @@ fun SmallContentGrayText(
     SmallContentText(
         text = text,
         modifier = modifier,
-        color = Color.LightGray,
+        color = Color.Gray,
     )
 }
 
