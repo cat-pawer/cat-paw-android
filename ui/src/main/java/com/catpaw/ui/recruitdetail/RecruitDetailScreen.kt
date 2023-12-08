@@ -9,17 +9,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -45,8 +48,8 @@ import com.catpaw.ui.common.SubTitleText
 import com.catpaw.ui.common.TitleText
 import com.catpaw.ui.recruit.SpacerLow
 import com.catpaw.ui.recruit.SpacerMedium
-import com.catpaw.ui.theme.CatpawandroidTheme
 import com.catpaw.ui.theme.Alabaster
+import com.catpaw.ui.theme.CatpawandroidTheme
 import com.catpaw.ui.theme.Seagull
 
 @Composable
@@ -58,11 +61,12 @@ fun RecruitDetailScreen(
     val recruitDetail = exampleRecruitDetail
     val commentList = List(30) { exampleRecruitComment }
     CatpawandroidTheme {
-        LazyColumn(modifier = modifier.padding(horizontal = 4.dp)) {
+        LazyColumn(modifier = modifier) {
             item {
                 RecruitDetailTitle(recruitDetail = recruitDetail)
                 SpacerMedium()
                 RecruitContactBox(recruitDetail = recruitDetail)
+                SpacerMedium()
                 RecruitContent(recruitDetail = recruitDetail)
                 SpacerMedium()
                 RecruitCommentInput(
@@ -179,10 +183,16 @@ fun RecruitContactBoxPreview() {
 
 @Composable
 fun RecruitContent(recruitDetail: RecruitDetail) {
-    Column {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    Column(
+        modifier = Modifier
+            .requiredWidth(screenWidth.dp)
+            .background(Alabaster)
+            .padding(vertical = 32.dp, horizontal = 16.dp)
+    ) {
         SubTitleText("프로젝트 소개")
+        SpacerLow()
         Box(
-            modifier = Modifier.background(Color.Gray)
         ) {
             Text(recruitDetail.introduce)
         }
@@ -213,27 +223,34 @@ fun RecruitCommentInput(
                     MaterialTheme.colorScheme.primary,
                     RoundedCornerShape(8.dp),
                 )
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+                .fillMaxWidth()
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+//            verticalAlignment = Alignment.CenterVertically,
         ) {
             TextField(
-                modifier = modifier,
+                modifier = modifier
+                    .weight(1f),
                 value = value,
                 placeholder = { Text(text = "댓글을 입력해주세요.") },
                 onValueChange = onValueChange,
-                singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                )
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
             )
-            TextButton(
-                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
+            Button(
+                modifier = Modifier.padding(top = 4.dp, end = 4.dp),
                 onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(4.dp)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.primary,
+                ),
+                shape = RoundedCornerShape(8.dp)
             ) {
-                Text(text = "등록", color = MaterialTheme.colorScheme.primary)
+                Text(text = "등록")
             }
         }
     }
@@ -252,7 +269,11 @@ fun CommentTextField(
 @Preview(showBackground = true)
 @Composable
 fun RecruitCommentInputPreview() {
-    RecruitCommentInput(value = "", onValueChange = {})
+    CatpawandroidTheme {
+        Surface {
+            RecruitCommentInput(value = "", onValueChange = {})
+        }
+    }
 }
 
 @Composable
