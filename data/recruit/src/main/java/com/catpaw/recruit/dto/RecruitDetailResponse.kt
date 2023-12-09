@@ -1,6 +1,9 @@
 package com.catpaw.recruit.dto
 
 
+import com.catpaw.recruit.model.OnlineType
+import com.catpaw.recruit.model.RecruitDetail
+import com.catpaw.recruit.model.RecruitType
 import com.google.gson.annotations.SerializedName
 
 data class RecruitDetailResponse(
@@ -41,5 +44,24 @@ data class RecruitDetailResponse(
     @SerializedName("updatedBy")
     val updatedBy: Int,
     @SerializedName("viewCount")
-    val viewCount: Int
-)
+    val viewCount: Int,
+) {
+    fun toDomain() = RecruitDetail(
+        introduce = "introduce",
+        onlineType = OnlineType.valueOf(onlineType),
+        state = state,
+        viewCount = viewCount,
+        recruitType = RecruitType.valueOf(groupType),
+        title = title,
+        content = content,
+        contact = contact,
+        peopleNumber = peopleNumber,
+        tagList = tagList.map { it.name },
+        positionList = positionList.map { it.name },
+        techList = techList.map { it.name },
+        expectDuration = expectDuration,
+        recruitPeriod = recruitPeriod,
+        createdBy = createdBy.toString(),
+        created = created,
+    )
+}
