@@ -1,7 +1,7 @@
 package com.example.cat_paw_android.di
 
+import com.catpaw.recruit.datasource.remote.DetailDataSource
 import com.catpaw.recruit.datasource.remote.DetailDataSourceImpl
-import com.catpaw.recruit.repository.RecruitRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataModule {
+abstract class DataModule {
     @Binds
     @Singleton
-    fun bindsRecruitDetailDataSource(recruitRepository: RecruitRepository): DetailDataSourceImpl
+    abstract fun bindsRecruitDetailDataSource(detailDataSourceImpl: DetailDataSourceImpl): DetailDataSource
 }
