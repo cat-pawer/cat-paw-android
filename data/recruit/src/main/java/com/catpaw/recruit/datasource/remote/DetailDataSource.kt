@@ -1,4 +1,4 @@
-package com.catpaw.recruit.datasource.remote.service
+package com.catpaw.recruit.datasource.remote
 
 import com.catpaw.recruit.dto.CatPawResponse
 import com.catpaw.recruit.dto.RecruitDetailResponse

@@ -1,5 +1,6 @@
 package com.catpaw.recruit.datasource.remote.service
 
+import com.catpaw.recruit.datasource.remote.DetailDataSourceImpl
 import com.google.common.truth.Truth
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
