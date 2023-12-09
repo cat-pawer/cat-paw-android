@@ -5,6 +5,7 @@ import com.catpaw.recruit.model.RecruitDetail
 
 data class RecruitDetailUiState(
     val recruitDetail: RecruitDetail = RecruitDetail(),
-    val comment: List<RecruitComment> = listOf(),
+    val commentList: List<RecruitComment> = listOf(),
     val inputComment: String = "",
+    val recruitId: Int = -1,
 )
