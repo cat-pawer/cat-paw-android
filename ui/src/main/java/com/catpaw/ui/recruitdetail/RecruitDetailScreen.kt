@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -76,15 +78,25 @@ fun RecruitDetailScreen(
                 )
                 SpacerMedium()
             }
-            itemsIndexed(commentList) { index, comment ->
-                RecruitCommentBox(comment = comment)
-                if (index < commentList.lastIndex) {
-                    SpacerLow()
-                    Divider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = Color.LightGray,
-                        thickness = 1.dp,
+            if (commentList.isNotEmpty()) {
+                item {
+                    Text(
+                        text = "댓글이 없습니다.",
+                        modifier = modifier.fillMaxSize(),
+                        textAlign = TextAlign.Center,
                     )
+                }
+            } else {
+                itemsIndexed(commentList) { index, comment ->
+                    RecruitCommentBox(comment = comment)
+                    if (index < commentList.lastIndex) {
+                        SpacerLow()
+                        Divider(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = Color.LightGray,
+                            thickness = 1.dp,
+                        )
+                    }
                 }
             }
         }
