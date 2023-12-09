@@ -1,12 +1,9 @@
 package com.example.cat_paw_android.di
 
-import com.catpaw.recruit.datasource.remote.DetailDataSource
-import com.catpaw.recruit.datasource.remote.DetailDataSourceImpl
 import com.catpaw.recruit.repository.DetailRepository
 import com.catpaw.recruit.repository.DetailRepositoryImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
