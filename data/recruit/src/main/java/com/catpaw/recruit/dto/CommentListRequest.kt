@@ -4,7 +4,7 @@ import android.util.Log
 
 class CommentListRequest(
     page: Int = 0,
-    size: Int = 1,
+    size: Int = 50,
     isPage: Boolean = false,
     sorted: String = "created"
 ) : HashMap<String, String>() {
