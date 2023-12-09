@@ -57,9 +57,10 @@ fun RecruitDetailScreen(
     modifier: Modifier = Modifier,
     recruitViewModel: RecruitDetailViewModel = viewModel()
 ) {
+    recruitViewModel.loadData(1)
     val uiState by recruitViewModel.uiState.collectAsState()
-    val recruitDetail = exampleRecruitDetail
-    val commentList = List(30) { exampleRecruitComment }
+    val recruitDetail = uiState.recruitDetail
+    val commentList = uiState.commentList
     CatpawandroidTheme {
         LazyColumn(modifier = modifier) {
             item {
@@ -77,8 +78,8 @@ fun RecruitDetailScreen(
             }
             itemsIndexed(commentList) { index, comment ->
                 RecruitCommentBox(comment = comment)
-                SpacerLow()
                 if (index < commentList.lastIndex) {
+                    SpacerLow()
                     Divider(
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.LightGray,
