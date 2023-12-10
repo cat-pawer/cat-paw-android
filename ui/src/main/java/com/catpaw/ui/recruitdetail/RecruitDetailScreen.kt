@@ -78,7 +78,7 @@ fun RecruitDetailScreen(
                 )
                 SpacerMedium()
             }
-            if (commentList.isNotEmpty()) {
+            if (commentList.isEmpty()) {
                 item {
                     Text(
                         text = "댓글이 없습니다.",
