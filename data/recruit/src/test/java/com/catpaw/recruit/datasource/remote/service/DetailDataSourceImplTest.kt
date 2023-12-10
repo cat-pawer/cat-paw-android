@@ -2,9 +2,12 @@ package com.catpaw.recruit.datasource.remote.service
 
 import com.catpaw.recruit.datasource.remote.DetailDataSourceImpl
 import com.google.common.truth.Truth
-import com.google.gson.Gson
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
@@ -13,7 +16,6 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class DetailDataSourceImplTest {
     private lateinit var detailService: DetailService
@@ -27,7 +29,7 @@ class DetailDataSourceImplTest {
         server.start()
         detailService = Retrofit.Builder()
             .baseUrl("https://api.my-pooding.com/api/v1/")//Pass any base url like this
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build().create(DetailService::class.java)
     }
 
@@ -36,7 +38,7 @@ class DetailDataSourceImplTest {
     fun `getDetail Success with mock server`() = runTest {
         val mockResponse = MockResponse()
             .setResponseCode(200)
-            .setBody(Gson().toJson(detailSuccess))
+            .setBody(Json.encodeToString(detailSuccess))
         server.enqueue(mockResponse)
         val dataSource = DetailDataSourceImpl(detailService)
         val result = dataSource.getDetail(1).first()

@@ -2,14 +2,16 @@ package com.example.cat_paw_android.di
 
 import com.catpaw.recruit.datasource.remote.service.DetailService
 import com.example.cat_paw_android.BuildConfig
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 private const val BASE_URL = "https://api.my-pooding.com/api/v1/"
@@ -31,10 +33,11 @@ class NetworkModule {
     @Singleton
     @Provides
     fun retrofit(okHttpClient: OkHttpClient): Retrofit {
+        val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
     }
 

@@ -1,12 +1,14 @@
 package com.catpaw.recruit.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CatPawResponse<T>(
-    @SerializedName("code")
+    @SerialName("code")
     val code: Int,
-    @SerializedName("message")
-    val message: String,
-    @SerializedName("data")
+    @SerialName("message")
+    val message: String?,
+    @SerialName("data")
     val data: T,
 )

@@ -1,23 +1,25 @@
 package com.catpaw.recruit.dto
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PositionResponse(
-    @SerializedName("categoryId")
+    @SerialName("categoryId")
     val categoryId: Int,
-    @SerializedName("categoryMapperId")
+    @SerialName("categoryMapperId")
     val categoryMapperId: Int,
-    @SerializedName("categoryType")
+    @SerialName("categoryType")
     val categoryType: String,
-    @SerializedName("created")
+    @SerialName("created")
     val created: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("targetId")
+    @SerialName("targetId")
     val targetId: Int,
-    @SerializedName("targetType")
+    @SerialName("targetType")
     val targetType: String,
-    @SerializedName("value")
+    @SerialName("value")
     val value: String
 )

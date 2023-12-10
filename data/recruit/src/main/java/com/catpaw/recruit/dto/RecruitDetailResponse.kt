@@ -4,46 +4,48 @@ package com.catpaw.recruit.dto
 import com.catpaw.recruit.model.OnlineType
 import com.catpaw.recruit.model.RecruitDetail
 import com.catpaw.recruit.model.RecruitType
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RecruitDetailResponse(
-    @SerializedName("commentCount")
+    @SerialName("commentCount")
     val commentCount: Int,
-    @SerializedName("contact")
+    @SerialName("contact")
     val contact: String,
-    @SerializedName("content")
+    @SerialName("content")
     val content: String,
-    @SerializedName("created")
+    @SerialName("created")
     val created: String,
-    @SerializedName("createdBy")
-    val createdBy: Int,
-    @SerializedName("expectDuration")
+    @SerialName("createdBy")
+    val createdBy: Int?,
+    @SerialName("expectDuration")
     val expectDuration: Int,
-    @SerializedName("groupType")
+    @SerialName("groupType")
     val groupType: String,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("onlineType")
+    @SerialName("onlineType")
     val onlineType: String,
-    @SerializedName("peopleNumber")
+    @SerialName("peopleNumber")
     val peopleNumber: Int,
-    @SerializedName("positionList")
+    @SerialName("positionList")
     val positionList: List<PositionResponse>,
-    @SerializedName("recruitPeriod")
+    @SerialName("recruitPeriod")
     val recruitPeriod: String,
-    @SerializedName("state")
+    @SerialName("state")
     val state: String,
-    @SerializedName("tagList")
+    @SerialName("tagList")
     val tagList: List<TagResponse>,
-    @SerializedName("techList")
+    @SerialName("techList")
     val techList: List<TechResponse>,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("updated")
+    @SerialName("updated")
     val updated: String,
-    @SerializedName("updatedBy")
-    val updatedBy: Int,
-    @SerializedName("viewCount")
+    @SerialName("updatedBy")
+    val updatedBy: Int?,
+    @SerialName("viewCount")
     val viewCount: Int,
 ) {
     fun toDomain() = RecruitDetail(

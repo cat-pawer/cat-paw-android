@@ -1,22 +1,25 @@
 package com.catpaw.recruit.dto
 
 import com.catpaw.recruit.model.RecruitComment
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 
+@Serializable
 data class CommentResponse(
-    @SerializedName("content")
+    @SerialName("content")
     val content: String,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("memberId")
+    @SerialName("memberId")
     val memberId: Int,
-    @SerializedName("nickname")
+    @SerialName("nickname")
     val nickname: String?
 ) {
     fun toDomain() = RecruitComment(
         contentId = id,
         memberId = memberId,
-        nickname = nickname ?: "",
+        nickname = nickname ?: "닉네임",
         content = content,
     )
 }

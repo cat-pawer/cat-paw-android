@@ -1,23 +1,25 @@
 package com.catpaw.recruit.dto
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CommentListResponse(
-    @SerializedName("content")
+    @SerialName("content")
     val commentList: List<CommentResponse>,
-    @SerializedName("hasNext")
+    @SerialName("hasNext")
     val hasNext: Boolean,
-    @SerializedName("hasPrevious")
+    @SerialName("hasPrevious")
     val hasPrevious: Boolean,
-    @SerializedName("number")
+    @SerialName("number")
     val number: Int,
-    @SerializedName("numberOfElements")
+    @SerialName("numberOfElements")
     val numberOfElements: Int,
-    @SerializedName("size")
+    @SerialName("size")
     val size: Int,
-    @SerializedName("totalElements")
+    @SerialName("totalElements")
     val totalElements: Int,
-    @SerializedName("totalPages")
+    @SerialName("totalPages")
     val totalPages: Int
 )

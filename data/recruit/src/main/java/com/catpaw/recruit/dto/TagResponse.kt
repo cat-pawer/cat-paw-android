@@ -1,23 +1,25 @@
 package com.catpaw.recruit.dto
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TagResponse(
-    @SerializedName("categoryId")
+    @SerialName("categoryId")
     val categoryId: Int,
-    @SerializedName("categoryMapperId")
-    val categoryMapperId: Int,
-    @SerializedName("categoryType")
+    @SerialName("categoryMapperId")
+    val categoryMapperId: Int?,
+    @SerialName("categoryType")
     val categoryType: String,
-    @SerializedName("created")
+    @SerialName("created")
     val created: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("targetId")
-    val targetId: Int,
-    @SerializedName("targetType")
-    val targetType: String,
-    @SerializedName("value")
-    val value: String
+    @SerialName("targetId")
+    val targetId: Int?,
+    @SerialName("targetType")
+    val targetType: String?,
+    @SerialName("value")
+    val value: String?,
 )
