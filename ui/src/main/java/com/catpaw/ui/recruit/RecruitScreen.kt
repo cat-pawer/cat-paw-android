@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,7 +56,6 @@ fun RecruitScreenPreview() {
         }
     }
 }
-
 
 @Composable
 fun SpacerMedium() {
@@ -308,3 +308,17 @@ private val exampleProjectList = listOf(
         skills = listOf("Figma", "디자인툴")
     )
 )
+
+@Composable
+fun EmptyProjectList(
+    modifier: Modifier = Modifier,
+    height: Int = 180,
+) {
+    Text(
+        text = "프로젝트가 없습니다.",
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height.dp),
+    )
+}
