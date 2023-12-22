@@ -1,5 +1,6 @@
 package com.catpaw.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -25,7 +27,11 @@ fun SkillChip(skill: String) {
             borderColor = MaterialTheme.colorScheme.primary,
             borderWidth = 1.dp,
         ),
-        modifier = Modifier.padding(end = 5.dp)
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = Color.Transparent,
+//            labelColor = Color.White,
+        ),
+        modifier = Modifier.padding(end = 5.dp),
     )
 }
 

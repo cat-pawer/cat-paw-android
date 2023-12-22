@@ -24,10 +24,13 @@ fun RecruitTypeChip(recruitType: RecruitType) {
         label = { Text(recruitType.korean, maxLines = 1) },
         shape = CircleShape,
         border = AssistChipDefaults.assistChipBorder(
-            borderColor = MaterialTheme.colorScheme.primary,
+            borderColor = Color.Transparent,
             borderWidth = 1.dp,
         ),
-        colors = AssistChipDefaults.assistChipColors(MaterialTheme.colorScheme.primary),
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            labelColor = Color.White
+        ),
         modifier = Modifier.padding(end = 5.dp)
     )
 }
