@@ -14,7 +14,7 @@ interface SummaryDataSource {
     fun getRecruitListByTopics(
         topic: SearchTopic,
         state: RecruitState,
-        period: LocalDate,
+        period: LocalDate = LocalDate.now(),
         page: Int = 0,
         size: Int = 10,
         vararg sort: String = arrayOf("created"),
@@ -26,7 +26,7 @@ interface SummaryDataSource {
         onlineType: OnlineType,
         categoryIdList: Array<Int>,
         state: RecruitState,
-        period: LocalDate,
+        period: LocalDate = LocalDate.now(),
         page: Int = 0,
         size: Int = 10,
         vararg sort: String = arrayOf("created"),
