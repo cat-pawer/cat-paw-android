@@ -1,7 +1,6 @@
 package com.catpaw.recruit.dto.response
 
 
-import com.catpaw.recruit.dto.TechResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

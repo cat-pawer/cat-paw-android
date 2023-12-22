@@ -1,4 +1,4 @@
-package com.catpaw.recruit.dto
+package com.catpaw.recruit.dto.request
 
 import android.util.Log
 

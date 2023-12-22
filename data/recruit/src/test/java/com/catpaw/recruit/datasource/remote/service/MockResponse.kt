@@ -1,9 +1,9 @@
 package com.catpaw.recruit.datasource.remote.service
 
-import com.catpaw.recruit.dto.CatPawResponse
-import com.catpaw.recruit.dto.RecruitDetailResponse
-import com.catpaw.recruit.dto.TagResponse
-import com.catpaw.recruit.dto.TechResponse
+import com.catpaw.recruit.dto.response.CatPawResponse
+import com.catpaw.recruit.dto.response.RecruitDetailResponse
+import com.catpaw.recruit.dto.response.TagResponse
+import com.catpaw.recruit.dto.response.TechResponse
 import java.text.SimpleDateFormat
 import java.util.Date
 

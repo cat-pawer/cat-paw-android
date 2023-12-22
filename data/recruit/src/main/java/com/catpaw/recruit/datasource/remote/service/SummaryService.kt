@@ -1,6 +1,6 @@
 package com.catpaw.recruit.datasource.remote.service
 
-import com.catpaw.recruit.dto.CatPawResponse
+import com.catpaw.recruit.dto.response.CatPawResponse
 import com.catpaw.recruit.dto.response.RecruitSummaryResponse
 import com.catpaw.recruit.model.RecruitType
 import retrofit2.Response

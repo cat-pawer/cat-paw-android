@@ -1,9 +1,9 @@
 package com.catpaw.recruit.datasource.remote.service
 
-import com.catpaw.recruit.dto.CatPawResponse
-import com.catpaw.recruit.dto.CommentListRequest
-import com.catpaw.recruit.dto.CommentListResponse
-import com.catpaw.recruit.dto.RecruitDetailResponse
+import com.catpaw.recruit.dto.response.CatPawResponse
+import com.catpaw.recruit.dto.request.CommentListRequest
+import com.catpaw.recruit.dto.response.CommentListResponse
+import com.catpaw.recruit.dto.response.RecruitDetailResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

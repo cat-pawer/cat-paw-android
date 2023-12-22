@@ -1,4 +1,4 @@
-package com.catpaw.recruit.dto
+package com.catpaw.recruit.dto.response
 
 import com.catpaw.recruit.model.RecruitComment
 import kotlinx.serialization.SerialName
