@@ -12,7 +12,7 @@ interface SummaryService {
     @GET("recruit/summary/topics")
     suspend fun fetchRecruitSummaryByTopics(
         @Query("topic") topic: String,
-        @Query("recruitState") recruitState: String,
+        @Query("state") recruitState: String,
         @Query("isPage") isPage: Boolean = false,
         @Query("page") page: Int = 0,
         @Query("size") size: Int = 10,
