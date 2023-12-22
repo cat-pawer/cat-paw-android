@@ -23,7 +23,7 @@ interface SummaryService {
     @GET("recruit/summary/search")
     suspend fun fetchRecruitSummaryBySearch(
         @Query("searchValue") searchValue: String,
-        @Query("recruitType") recruitType: RecruitType,
+        @Query("recruitType") recruitType: String,
         @Query("onlineType") onlineType: String,
         @Query("categoryIdList") categoryIdList: Array<Int>,
         @Query("recruitState") recruitState: String,
