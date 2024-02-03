@@ -269,43 +269,50 @@ private val exampleProjectList = listOf(
         tags = listOf("백", "프론트"),
         replyCount = 9293,
         viewCount = 3867,
-        skills = listOf("Java", "TS")
+        skills = listOf("Java", "TS"),
+        id = 0
     ), Project(
         title = "etanewtntewa".repeat(10),
         tags = listOf("백", "프론트"),
         replyCount = 9293,
         viewCount = 3867,
-        skills = listOf("Java", "TS")
+        skills = listOf("Java", "TS"),
+        id = 1
     ), Project(
         title = "et",
         tags = listOf("백", "프론트"),
         replyCount = 9293,
         viewCount = 3867,
-        skills = listOf("Java", "TS")
+        skills = listOf("Java", "TS"),
+        id = 2
     ), Project(
         title = "pulvinar",
         tags = listOf("디자이너"),
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴")
+        skills = listOf("Figma", "디자인툴"),
+        id = 3
     ), Project(
         title = "pulvinar",
         tags = listOf("디자이너"),
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴")
+        skills = listOf("Figma", "디자인툴"),
+        id = 4
     ), Project(
         title = "pulvinar",
         tags = listOf("디자이너"),
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴")
+        skills = listOf("Figma", "디자인툴"),
+        id = 5
     ), Project(
         title = "pulvinar",
         tags = listOf("디자이너"),
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴")
+        skills = listOf("Figma", "디자인툴"),
+        id = 6
     )
 )
 

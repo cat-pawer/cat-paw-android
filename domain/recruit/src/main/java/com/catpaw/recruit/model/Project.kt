@@ -6,4 +6,5 @@ data class Project(
     val replyCount: Int,
     val viewCount: Int,
     val skills: List<String>,
+    val id: Int,
 )
