@@ -1,13 +1,13 @@
-package com.catpaw.recruit.dto
+package com.catpaw.recruit.dto.response
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CommentListResponse(
+data class RecruitSummaryResponse(
     @SerialName("content")
-    val commentList: List<CommentResponse>,
+    val content: List<RecruitSummaryElemResponse>,
     @SerialName("hasNext")
     val hasNext: Boolean,
     @SerialName("hasPrevious")

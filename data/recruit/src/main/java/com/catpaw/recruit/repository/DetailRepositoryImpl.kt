@@ -1,7 +1,7 @@
 package com.catpaw.recruit.repository
 
 import com.catpaw.recruit.datasource.remote.DetailDataSource
-import com.catpaw.recruit.dto.CommentResponse
+import com.catpaw.recruit.dto.response.CommentResponse
 import com.catpaw.recruit.model.RecruitComment
 import com.catpaw.recruit.model.RecruitDetail
 import kotlinx.coroutines.flow.Flow

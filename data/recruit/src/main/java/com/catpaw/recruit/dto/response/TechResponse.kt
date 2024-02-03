@@ -1,15 +1,15 @@
-package com.catpaw.recruit.dto
+package com.catpaw.recruit.dto.response
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PositionResponse(
+data class TechResponse(
     @SerialName("categoryId")
     val categoryId: Int,
     @SerialName("categoryMapperId")
-    val categoryMapperId: Int,
+    val categoryMapperId: Int?,
     @SerialName("categoryType")
     val categoryType: String,
     @SerialName("created")
@@ -17,9 +17,9 @@ data class PositionResponse(
     @SerialName("name")
     val name: String,
     @SerialName("targetId")
-    val targetId: Int,
+    val targetId: Int?,
     @SerialName("targetType")
-    val targetType: String,
+    val targetType: String?,
     @SerialName("value")
     val value: String
 )

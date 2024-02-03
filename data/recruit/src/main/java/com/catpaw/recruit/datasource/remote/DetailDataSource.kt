@@ -1,8 +1,8 @@
 package com.catpaw.recruit.datasource.remote
 
-import com.catpaw.recruit.dto.CatPawResponse
-import com.catpaw.recruit.dto.CommentListResponse
-import com.catpaw.recruit.dto.RecruitDetailResponse
+import com.catpaw.recruit.dto.response.CatPawResponse
+import com.catpaw.recruit.dto.response.CommentListResponse
+import com.catpaw.recruit.dto.response.RecruitDetailResponse
 import kotlinx.coroutines.flow.Flow
 
 interface DetailDataSource {
