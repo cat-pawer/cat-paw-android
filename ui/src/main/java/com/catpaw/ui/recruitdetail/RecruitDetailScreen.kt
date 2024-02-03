@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
@@ -22,27 +24,35 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.catpaw.recruit.model.OnlineType
 import com.catpaw.recruit.model.RecruitComment
 import com.catpaw.recruit.model.RecruitDetail
 import com.catpaw.recruit.model.RecruitType
+import com.catpaw.ui.AppBarState
+import com.catpaw.ui.common.AppBarText
 import com.catpaw.ui.common.ContentText
+import com.catpaw.ui.common.NavButtonDefault
 import com.catpaw.ui.common.RecruitTypeChip
 import com.catpaw.ui.common.SmallContentGrayText
 import com.catpaw.ui.common.SmallContentText
@@ -56,47 +66,55 @@ import com.catpaw.ui.theme.Seagull
 
 @Composable
 fun RecruitDetailScreen(
+    changeAppBarState: (AppBarState) -> Unit,
     modifier: Modifier = Modifier,
-    recruitViewModel: RecruitDetailViewModel = viewModel()
+    onNavClick: () -> Unit = {},
+    recruitViewModel: RecruitDetailViewModel = hiltViewModel(),
 ) {
-    recruitViewModel.loadData(1)
+    val owner by rememberUpdatedState(newValue = LocalLifecycleOwner.current)
+    LaunchedEffect(owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+        changeAppBarState(
+            AppBarState(
+                title = { AppBarText(text = "모집 상세") },
+                navigationIconButton = { NavButtonDefault(onNavClick) }
+            )
+        )
+    }
     val uiState by recruitViewModel.uiState.collectAsState()
     val recruitDetail = uiState.recruitDetail
     val commentList = uiState.commentList
-    CatpawandroidTheme {
-        LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier) {
+        item {
+            RecruitDetailTitle(recruitDetail = recruitDetail)
+            SpacerMedium()
+            RecruitContactBox(recruitDetail = recruitDetail)
+            SpacerMedium()
+            RecruitContent(recruitDetail = recruitDetail)
+            SpacerMedium()
+            RecruitCommentInput(
+                value = uiState.inputComment,
+                onValueChange = { change: String -> recruitViewModel.changeInputComment(change) }
+            )
+            SpacerMedium()
+        }
+        if (commentList.isEmpty()) {
             item {
-                RecruitDetailTitle(recruitDetail = recruitDetail)
-                SpacerMedium()
-                RecruitContactBox(recruitDetail = recruitDetail)
-                SpacerMedium()
-                RecruitContent(recruitDetail = recruitDetail)
-                SpacerMedium()
-                RecruitCommentInput(
-                    value = uiState.inputComment,
-                    onValueChange = { change: String -> recruitViewModel.changeInputComment(change) }
+                Text(
+                    text = "댓글이 없습니다.",
+                    modifier = modifier.fillMaxSize(),
+                    textAlign = TextAlign.Center,
                 )
-                SpacerMedium()
             }
-            if (commentList.isEmpty()) {
-                item {
-                    Text(
-                        text = "댓글이 없습니다.",
-                        modifier = modifier.fillMaxSize(),
-                        textAlign = TextAlign.Center,
+        } else {
+            itemsIndexed(commentList) { index, comment ->
+                RecruitCommentBox(comment = comment)
+                if (index < commentList.lastIndex) {
+                    SpacerLow()
+                    Divider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.LightGray,
+                        thickness = 1.dp,
                     )
-                }
-            } else {
-                itemsIndexed(commentList) { index, comment ->
-                    RecruitCommentBox(comment = comment)
-                    if (index < commentList.lastIndex) {
-                        SpacerLow()
-                        Divider(
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            color = Color.LightGray,
-                            thickness = 1.dp,
-                        )
-                    }
                 }
             }
         }
@@ -174,7 +192,7 @@ fun RecruitContactBox(
 fun IntroduceInnerRow(
     type: String,
     data: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -241,7 +259,7 @@ fun RecruitCommentInput(
             horizontalArrangement = Arrangement.SpaceAround,
 //            verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextField(
+            OutlinedTextField(
                 modifier = modifier
                     .weight(1f),
                 value = value,
@@ -253,6 +271,12 @@ fun RecruitCommentInput(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Default
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { }
+                )
             )
             Button(
                 modifier = Modifier.padding(top = 4.dp, end = 4.dp),
@@ -274,7 +298,7 @@ fun CommentTextField(
     modifier: Modifier,
     value: String,
     placeholder: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
 
 }

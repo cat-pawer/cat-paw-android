@@ -18,22 +18,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -41,8 +45,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.catpaw.recruit.model.Project
+import com.catpaw.ui.AppBarState
+import com.catpaw.ui.common.AppBarText
 import com.catpaw.ui.common.SkillChip
 import com.catpaw.ui.theme.CatpawandroidTheme
 import com.catpaw.ui.theme.Seagull
@@ -52,7 +59,11 @@ import com.catpaw.ui.theme.Seagull
 fun RecruitScreenPreview() {
     CatpawandroidTheme {
         Surface(Modifier.fillMaxWidth()) {
-            RecruitScreen(Modifier.padding(horizontal = 16.dp))
+            RecruitScreen(
+                changeAppBarState = { AppBarState() },
+                onRecruitDetailClick = {},
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
         }
     }
 }
@@ -69,10 +80,25 @@ fun SpacerLow() {
 
 @Composable
 fun RecruitScreen(
+    changeAppBarState: (AppBarState) -> Unit,
+    onRecruitDetailClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    recruitViewModel: RecruitViewModel = viewModel()
+    recruitViewModel: RecruitViewModel = hiltViewModel(),
 ) {
     val recruitUiState by recruitViewModel.uiState.collectAsState()
+    val owner by rememberUpdatedState(newValue = LocalLifecycleOwner.current)
+    LaunchedEffect(owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+        changeAppBarState(
+            AppBarState(
+                title = { AppBarText("") },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Rounded.AccountCircle, contentDescription = "Profile Button")
+                    }
+                }
+            )
+        )
+    }
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -80,17 +106,6 @@ fun RecruitScreen(
         contentPadding = PaddingValues(vertical = 8.dp),
     ) {
         item {
-            Row {
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    modifier = Modifier
-                        .padding(top = 16.dp, end = 16.dp)
-                        .scale(2f),
-                    contentDescription = null,
-                )
-            }
-            SpacerMedium()
             RecruitTitle(modifier)
             SearchField(
                 modifier = modifier,
@@ -101,6 +116,7 @@ fun RecruitScreen(
             ProjectsRow(
                 title = "신상 프로젝트",
                 projects = exampleProjectList,
+                onClickCard = onRecruitDetailClick,
                 modifier = modifier.padding(vertical = 4.dp),
             )
             SpacerMedium()
@@ -108,12 +124,16 @@ fun RecruitScreen(
                 title = "마감임박 프로젝트",
                 projects = exampleProjectList,
                 backgroundColor = Seagull,
+                onClickCard = onRecruitDetailClick,
                 modifier = modifier.padding(vertical = 4.dp),
             )
             SpacerMedium()
         }
         items(exampleProjectList) {
-            ProjectCard(project = it)
+            ProjectCard(
+                project = it,
+                onClickCard = onRecruitDetailClick,
+            )
         }
     }
 }
@@ -138,6 +158,7 @@ fun SearchField(
     value: String,
     onValueChange: (String) -> Unit,
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         modifier = modifier,
         value = value,
@@ -145,10 +166,10 @@ fun SearchField(
         label = { Text(text = "검색어") },
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Default
+            imeAction = ImeAction.Search,
         ),
         keyboardActions = KeyboardActions(
-            onDone = { }
+            onSearch = { keyboard?.hide() }
         )
     )
 }
@@ -156,6 +177,7 @@ fun SearchField(
 @Composable
 fun ProjectsColumn(
     projects: List<Project>,
+    onClickCard: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -165,7 +187,7 @@ fun ProjectsColumn(
         contentPadding = PaddingValues(vertical = 8.dp),
     ) {
         items(projects) { project ->
-            ProjectCard(project = project)
+            ProjectCard(project = project, onClickCard = onClickCard)
         }
     }
 }
@@ -176,6 +198,7 @@ fun ProjectsRow(
     projects: List<Project>,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
+    onClickCard: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -195,7 +218,7 @@ fun ProjectsRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(projects) { project ->
-                ProjectCard(project = project)
+                ProjectCard(project = project, onClickCard = onClickCard)
             }
         }
     }
@@ -204,18 +227,18 @@ fun ProjectsRow(
 @Preview(showBackground = true)
 @Composable
 fun ProjectsRowPreview() {
-    ProjectsRow("title", exampleProjectList)
+    ProjectsRow("title", exampleProjectList, onClickCard = {})
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProjectCard(project: Project) {
+fun ProjectCard(project: Project, onClickCard: (Int) -> Unit) {
     ElevatedCard(modifier = Modifier
         .padding(vertical = 4.dp)
         .size(width = 280.dp, height = 180.dp)
         .border(1.dp, shape = MaterialTheme.shapes.medium, color = Color.White)
         .shadow(8.dp),
-        onClick = {}) {
+        onClick = { onClickCard(project.id) }) {
         Column(
             modifier = Modifier
                 .padding(10.dp)

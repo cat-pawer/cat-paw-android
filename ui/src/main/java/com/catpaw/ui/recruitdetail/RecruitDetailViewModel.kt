@@ -1,10 +1,12 @@
 package com.catpaw.ui.recruitdetail
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catpaw.recruit.usecase.GetCommentListUseCase
 import com.catpaw.recruit.usecase.GetDetailUseCase
+import com.catpaw.ui.NAV_PATH_VAR_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,11 +16,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecruitDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getDetailUseCase: GetDetailUseCase,
     private val getCommentListUseCase: GetCommentListUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RecruitDetailUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val userId: Int = requireNotNull(savedStateHandle[NAV_PATH_VAR_ID])
+
+    init {
+        loadData(userId)
+    }
 
     fun changeInputComment(change: String) {
         _uiState.update { state ->
@@ -26,7 +35,7 @@ class RecruitDetailViewModel @Inject constructor(
         }
     }
 
-    fun loadData(id: Int) {
+    private fun loadData(id: Int) {
         if (_uiState.value.recruitId != id) {
             _uiState.update { state ->
                 state.copy(recruitId = id)
