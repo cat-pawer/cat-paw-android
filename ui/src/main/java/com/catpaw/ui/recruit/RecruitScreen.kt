@@ -61,11 +61,41 @@ fun RecruitScreenPreview() {
     CatpawandroidTheme {
         Surface(Modifier.fillMaxWidth()) {
             RecruitScreen(
-                changeAppBarState = { AppBarState() },
                 onRecruitDetailClick = {},
-                modifier = Modifier.padding(horizontal = 16.dp),
+                changeSearchKeyword = {},
+                modifier = Modifier.padding(PaddingValues(top = 16.dp)),
+                recruitUiState = RecruitUiState()
             )
         }
+    }
+}
+
+@Composable
+fun RecruitRoute(
+    modifier: Modifier = Modifier,
+    changeAppBarState: (AppBarState) -> Unit,
+    onRecruitDetailClick: (Int) -> Unit,
+    recruitViewModel: RecruitViewModel = hiltViewModel(),
+) {
+    val recruitUiState by recruitViewModel.uiState.collectAsState()
+    RecruitScreen(
+        onRecruitDetailClick = onRecruitDetailClick,
+        recruitUiState = recruitUiState,
+        changeSearchKeyword = recruitViewModel::changeSearchKeyword,
+        modifier = modifier,
+    )
+    val owner by rememberUpdatedState(newValue = LocalLifecycleOwner.current)
+    LaunchedEffect(owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
+        changeAppBarState(
+            AppBarState(
+                title = { AppBarText("") },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Rounded.AccountCircle, contentDescription = "Profile Button")
+                    }
+                }
+            )
+        )
     }
 }
 
@@ -81,44 +111,30 @@ fun SpacerLow() {
 
 @Composable
 fun RecruitScreen(
-    changeAppBarState: (AppBarState) -> Unit,
     onRecruitDetailClick: (Int) -> Unit,
+    changeSearchKeyword: (String) -> Unit,
     modifier: Modifier = Modifier,
-    recruitViewModel: RecruitViewModel = hiltViewModel(),
+    recruitUiState: RecruitUiState,
 ) {
-    val recruitUiState by recruitViewModel.uiState.collectAsState()
-    val owner by rememberUpdatedState(newValue = LocalLifecycleOwner.current)
-    LaunchedEffect(owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
-        changeAppBarState(
-            AppBarState(
-                title = { AppBarText("") },
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Rounded.AccountCircle, contentDescription = "Profile Button")
-                    }
-                }
-            )
-        )
-    }
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 8.dp),
     ) {
         item {
-            RecruitTitle(modifier)
+            RecruitTitle(Modifier)
             SearchField(
-                modifier = modifier,
+                modifier = Modifier,
                 value = recruitUiState.searchKeyword,
-                onValueChange = { recruitViewModel.changeSearchKeyword(it) },
+                onValueChange = changeSearchKeyword,
             )
             SpacerLow()
             ProjectsRow(
                 title = "신상 프로젝트",
                 projects = exampleProjectList,
                 onClickCard = onRecruitDetailClick,
-                modifier = modifier.padding(vertical = 4.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
             )
             SpacerMedium()
             ProjectsRow(
@@ -126,7 +142,7 @@ fun RecruitScreen(
                 projects = exampleProjectList,
                 backgroundColor = Seagull,
                 onClickCard = onRecruitDetailClick,
-                modifier = modifier.padding(vertical = 4.dp),
+                modifier = Modifier.padding(vertical = 4.dp),
             )
             SpacerMedium()
         }
@@ -184,7 +200,7 @@ fun ProjectsColumn(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 8.dp),
     ) {
         items(projects) { project ->

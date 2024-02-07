@@ -26,8 +26,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.catpaw.ui.ScreenNavType.RecruitDetailNav
 import com.catpaw.ui.ScreenNavType.RecruitNav
-import com.catpaw.ui.recruit.RecruitScreen
-import com.catpaw.ui.recruitdetail.RecruitDetailScreen
+import com.catpaw.ui.recruit.RecruitRoute
+import com.catpaw.ui.recruitdetail.RecruitDetailRoute
 
 @Composable
 fun CatPawNavHost(
@@ -39,12 +39,13 @@ fun CatPawNavHost(
 
     NavHost(navController = navController, startDestination = RecruitNav.route) {
         setComposable(RecruitNav.route) {
-            RecruitScreen(
+            RecruitRoute(
                 changeAppBarState = changeAppBarState, onRecruitDetailClick = {
                     navController.navigate(RecruitDetailNav.createRoute(it)) {
                         launchSingleTop = true
                     }
-                }, modifier = Modifier.padding(paddingValues)
+                },
+                modifier = Modifier.padding(paddingValues)
             )
         }
         setComposable(
@@ -53,7 +54,7 @@ fun CatPawNavHost(
                 type = NavType.IntType
             })
         ) {
-            RecruitDetailScreen(
+            RecruitDetailRoute(
                 modifier = Modifier.padding(paddingValues),
                 changeAppBarState = changeAppBarState,
                 onNavClick = {

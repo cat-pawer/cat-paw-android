@@ -65,11 +65,11 @@ import com.catpaw.ui.theme.CatpawandroidTheme
 import com.catpaw.ui.theme.Seagull
 
 @Composable
-fun RecruitDetailScreen(
+fun RecruitDetailRoute(
     changeAppBarState: (AppBarState) -> Unit,
     modifier: Modifier = Modifier,
     onNavClick: () -> Unit = {},
-    recruitViewModel: RecruitDetailViewModel = hiltViewModel(),
+    detailViewModel: RecruitDetailViewModel = hiltViewModel(),
 ) {
     val owner by rememberUpdatedState(newValue = LocalLifecycleOwner.current)
     LaunchedEffect(owner.lifecycle.currentState == Lifecycle.State.RESUMED) {
@@ -80,7 +80,20 @@ fun RecruitDetailScreen(
             )
         )
     }
-    val uiState by recruitViewModel.uiState.collectAsState()
+    val uiState by detailViewModel.uiState.collectAsState()
+    RecruitDetailScreen(
+        uiState = uiState,
+        changeInputComment = detailViewModel::changeInputComment,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun RecruitDetailScreen(
+    uiState: RecruitDetailUiState,
+    changeInputComment: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val recruitDetail = uiState.recruitDetail
     val commentList = uiState.commentList
     LazyColumn(modifier = modifier) {
@@ -93,7 +106,7 @@ fun RecruitDetailScreen(
             SpacerMedium()
             RecruitCommentInput(
                 value = uiState.inputComment,
-                onValueChange = { change: String -> recruitViewModel.changeInputComment(change) }
+                onValueChange = changeInputComment
             )
             SpacerMedium()
         }
