@@ -36,9 +36,9 @@ data class RecruitDetailResponse(
     @SerialName("state")
     val state: String,
     @SerialName("tagList")
-    val tagList: List<TagResponse>,
+    val tagList: List<CategoryResponse>,
     @SerialName("techList")
-    val techList: List<TechResponse>,
+    val techList: List<CategoryResponse>,
     @SerialName("title")
     val title: String,
     @SerialName("updated")

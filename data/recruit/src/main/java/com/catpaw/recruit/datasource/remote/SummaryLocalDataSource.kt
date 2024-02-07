@@ -8,9 +8,8 @@ import com.catpaw.recruit.model.RecruitType
 import com.catpaw.recruit.model.SearchTopic
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
-import java.util.Date
 
-interface SummaryDataSource {
+interface SummaryLocalDataSource {
     fun getRecruitListByTopics(
         topic: SearchTopic,
         state: RecruitState,

@@ -2,8 +2,8 @@ package com.example.cat_paw_android.di
 
 import com.catpaw.recruit.datasource.remote.DetailDataSource
 import com.catpaw.recruit.datasource.remote.DetailDataSourceImpl
-import com.catpaw.recruit.datasource.remote.SummaryDataSource
-import com.catpaw.recruit.datasource.remote.SummaryDataSourceImpl
+import com.catpaw.recruit.datasource.remote.SummaryLocalDataSource
+import com.catpaw.recruit.datasource.remote.SummaryLocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,5 +19,5 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsRecruitSummaryDataSource(summaryDataSourceImpl: SummaryDataSourceImpl): SummaryDataSource
+    abstract fun bindsRecruitSummaryDataSource(summaryDataSourceImpl: SummaryLocalDataSourceImpl): SummaryLocalDataSource
 }

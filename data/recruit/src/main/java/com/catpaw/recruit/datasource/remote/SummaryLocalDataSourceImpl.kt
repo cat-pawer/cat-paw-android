@@ -10,9 +10,9 @@ import com.catpaw.recruit.model.SearchTopic
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 
-class SummaryDataSourceImpl(
+class SummaryLocalDataSourceImpl(
     private val summaryService: SummaryService,
-) : SummaryDataSource {
+) : SummaryLocalDataSource {
     override fun getRecruitListByTopics(
         topic: SearchTopic,
         state: RecruitState,

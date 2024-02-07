@@ -9,7 +9,7 @@ data class RecruitSummaryElemResponse(
     @SerialName("commentCount")
     val commentCount: Int,
     @SerialName("hashList")
-    val hashList: List<HashResponse>,
+    val hashList: List<CategoryResponse>,
     @SerialName("id")
     val id: Int,
     @SerialName("onlineType")
@@ -21,7 +21,7 @@ data class RecruitSummaryElemResponse(
     @SerialName("state")
     val state: String,
     @SerialName("techList")
-    val techList: List<TechResponse>,
+    val techList: List<CategoryResponse>,
     @SerialName("title")
     val title: String,
     @SerialName("viewCount")

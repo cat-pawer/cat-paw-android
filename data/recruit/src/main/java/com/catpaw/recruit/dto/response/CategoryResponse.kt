@@ -1,11 +1,12 @@
 package com.catpaw.recruit.dto.response
 
 
+import com.catpaw.recruit.model.Category
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TechResponse(
+data class CategoryResponse(
     @SerialName("categoryId")
     val categoryId: Int,
     @SerialName("categoryMapperId")
@@ -21,5 +22,12 @@ data class TechResponse(
     @SerialName("targetType")
     val targetType: String?,
     @SerialName("value")
-    val value: String
-)
+    val value: String?,
+) {
+    fun toDomain() = Category(
+        id = categoryId,
+        name = name,
+        value = value,
+        categoryType = categoryType
+    )
+}

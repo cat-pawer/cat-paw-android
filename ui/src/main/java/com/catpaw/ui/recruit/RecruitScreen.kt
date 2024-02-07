@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import com.catpaw.recruit.model.Category
 import com.catpaw.recruit.model.Project
 import com.catpaw.ui.AppBarState
 import com.catpaw.ui.common.AppBarText
@@ -241,14 +242,14 @@ fun ProjectCard(project: Project, onClickCard: (Int) -> Unit) {
         onClick = { onClickCard(project.id) }) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(12.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceAround,
         ) {
             Row {
                 for (tag in project.tags) {
                     Text(
-                        text = "#$tag ", color = Color(0xFFC5C5C5)
+                        text = "#${tag.name} ", color = Color(0xFFC5C5C5)
                     )
                 }
             }
@@ -262,7 +263,7 @@ fun ProjectCard(project: Project, onClickCard: (Int) -> Unit) {
             )
             Row {
                 for (skill in project.skills.take(3)) {
-                    SkillChip(skill = skill)
+                    SkillChip(skill = skill.name)
                 }
             }
             Spacer(
@@ -286,56 +287,68 @@ fun ProjectCard(project: Project, onClickCard: (Int) -> Unit) {
     }
 }
 
+private val tagsExample = listOf(
+    Category(id = 1, name = "디자이나", value = null, categoryType = "hash"),
+    Category(id = 2, name = "백엔드", value = null, categoryType = "hash"),
+    Category(id = 3, name = "프론트엔드", value = null, categoryType = "hash")
+)
+
+private val skillsExample = listOf(
+    Category(id = 1, name = "Java", value = null, categoryType = "tech"),
+    Category(id = 2, name = "Spring", value = null, categoryType = "tech"),
+    Category(id = 3, name = "Kotlin", value = null, categoryType = "tech"),
+)
+
 private val exampleProjectList = listOf(
     Project(
         title = "et51n2nnnt2nt2".repeat(5),
-        tags = listOf("백", "프론트"),
+        tags = tagsExample,
         replyCount = 9293,
         viewCount = 3867,
-        skills = listOf("Java", "TS"),
-        id = 0
-    ), Project(
-        title = "etanewtntewa".repeat(10),
-        tags = listOf("백", "프론트"),
-        replyCount = 9293,
-        viewCount = 3867,
-        skills = listOf("Java", "TS"),
+        skills = skillsExample,
         id = 1
     ), Project(
-        title = "et",
-        tags = listOf("백", "프론트"),
+        title = "etanewtntewa".repeat(10),
+        tags = tagsExample,
         replyCount = 9293,
         viewCount = 3867,
-        skills = listOf("Java", "TS"),
+        skills = skillsExample,
         id = 2
     ), Project(
-        title = "pulvinar",
-        tags = listOf("디자이너"),
-        replyCount = 1442,
-        viewCount = 8213,
-        skills = listOf("Figma", "디자인툴"),
+        title = "et",
+        tags = tagsExample,
+        replyCount = 9293,
+        viewCount = 3867,
+        skills = skillsExample,
         id = 3
     ), Project(
         title = "pulvinar",
-        tags = listOf("디자이너"),
+        tags = tagsExample,
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴"),
+        skills = skillsExample,
         id = 4
     ), Project(
         title = "pulvinar",
-        tags = listOf("디자이너"),
+        tags = tagsExample,
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴"),
+        skills = skillsExample,
         id = 5
     ), Project(
         title = "pulvinar",
-        tags = listOf("디자이너"),
+        tags = tagsExample,
         replyCount = 1442,
         viewCount = 8213,
-        skills = listOf("Figma", "디자인툴"),
+        skills = skillsExample,
         id = 6
+    ), Project(
+        title = "pulvinar",
+        tags = tagsExample,
+        replyCount = 1442,
+        viewCount = 8213,
+        skills = skillsExample,
+        id = 7
     )
 )
 
