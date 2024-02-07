@@ -1,6 +1,7 @@
 package com.catpaw.recruit.dto.response
 
 
+import com.catpaw.recruit.model.Project
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,5 +22,16 @@ data class RecruitSummaryResponse(
     @SerialName("totalElements")
     val totalElements: Int,
     @SerialName("totalPages")
-    val totalPages: Int
-)
+    val totalPages: Int,
+) {
+    fun toDomain() = content.map {
+        Project(
+            title = it.title,
+            tags = it.hashList.map { category -> category.toDomain() },
+            replyCount = it.commentCount,
+            viewCount = it.viewCount,
+            skills = it.techList.map { category -> category.toDomain() },
+            id = it.id,
+        )
+    }
+}

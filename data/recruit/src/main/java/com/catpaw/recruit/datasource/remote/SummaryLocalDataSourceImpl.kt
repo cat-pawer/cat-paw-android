@@ -9,8 +9,9 @@ import com.catpaw.recruit.model.RecruitType
 import com.catpaw.recruit.model.SearchTopic
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
+import javax.inject.Inject
 
-class SummaryLocalDataSourceImpl(
+class SummaryLocalDataSourceImpl @Inject constructor(
     private val summaryService: SummaryService,
 ) : SummaryLocalDataSource {
     override fun getRecruitListByTopics(
@@ -19,7 +20,7 @@ class SummaryLocalDataSourceImpl(
         period: LocalDate,
         page: Int,
         size: Int,
-        vararg sort: String
+        vararg sort: String,
     ) = flow<Result<CatPawResponse<RecruitSummaryResponse>>> {
         val response = summaryService.fetchRecruitSummaryByTopics(
             topic = topic.query, recruitState = state.query, page = page, size = size, sort = sort
@@ -45,7 +46,7 @@ class SummaryLocalDataSourceImpl(
         period: LocalDate,
         page: Int,
         size: Int,
-        vararg sort: String
+        vararg sort: String,
     ) = flow<Result<CatPawResponse<RecruitSummaryResponse>>> {
         val response = summaryService.fetchRecruitSummaryBySearch(
             searchValue = searchValue,

@@ -3,6 +3,7 @@ package com.catpaw.ui.recruit
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -29,7 +32,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
@@ -64,7 +66,7 @@ fun RecruitScreenPreview() {
                 onRecruitDetailClick = {},
                 changeSearchKeyword = {},
                 modifier = Modifier.padding(PaddingValues(top = 16.dp)),
-                recruitUiState = RecruitUiState()
+                recruitUiState = MutableRecruitUiState()
             )
         }
     }
@@ -77,7 +79,7 @@ fun RecruitRoute(
     onRecruitDetailClick: (Int) -> Unit,
     recruitViewModel: RecruitViewModel = hiltViewModel(),
 ) {
-    val recruitUiState by recruitViewModel.uiState.collectAsState()
+    val recruitUiState = recruitViewModel.uiState
     RecruitScreen(
         onRecruitDetailClick = onRecruitDetailClick,
         recruitUiState = recruitUiState,
@@ -132,7 +134,7 @@ fun RecruitScreen(
             SpacerLow()
             ProjectsRow(
                 title = "신상 프로젝트",
-                projects = exampleProjectList,
+                projects = recruitUiState.newestRecruitList,
                 onClickCard = onRecruitDetailClick,
                 modifier = Modifier.padding(vertical = 4.dp),
             )
@@ -229,13 +231,17 @@ fun ProjectsRow(
             modifier = modifier,
         )
 //        SpacerLow()
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(projects) { project ->
-                ProjectCard(project = project, onClickCard = onClickCard)
+        if (projects.isEmpty()) {
+            EmptyProjectList(Modifier.fillMaxSize())
+        } else {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(projects) { project ->
+                    ProjectCard(project = project, onClickCard = onClickCard)
+                }
             }
         }
     }
@@ -373,11 +379,17 @@ fun EmptyProjectList(
     modifier: Modifier = Modifier,
     height: Int = 180,
 ) {
-    Text(
-        text = "프로젝트가 없습니다.",
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .fillMaxWidth()
+    Box(
+        modifier = modifier
+            .fillMaxSize()
             .height(height.dp),
-    )
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "프로젝트가 없습니다.",
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .wrapContentSize(),
+        )
+    }
 }

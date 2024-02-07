@@ -2,6 +2,8 @@ package com.example.cat_paw_android.di
 
 import com.catpaw.recruit.repository.DetailRepository
 import com.catpaw.recruit.repository.DetailRepositoryImpl
+import com.catpaw.recruit.repository.SummaryRepository
+import com.catpaw.recruit.repository.SummaryRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,4 +25,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsRecruitDetailRepository(detailDRepository: DetailRepositoryImpl): DetailRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsRecruitSummaryRepository(summaryRepository: SummaryRepositoryImpl): SummaryRepository
 }
